@@ -62,32 +62,22 @@ public class DBInit {
         representativeRepository.save(rep4);
         representativeRepository.save(rep5);
         representativeRepository.save(rep6);
-
+        doctor6();
         logger.info("[schedule-service] [db-init] representative data initialization complete");
     }
 
-    @PostConstruct
-    void init() throws FileNotFoundException {
-        logger.info("[schedule-service] [db-init] doctors data initialization start");
-
-        File file = ResourceUtils.getFile("classpath:doctors.csv");
-        Scanner sc = new Scanner(file);
-
-        while (sc.hasNext()) {
-            String line = sc.next();
-            String[] data = line.split(",");
-
+    private void doctor6() {
+        String[] str = {"Gynaecology", "General", "Orthopaedics", "Gynaecology", "General", "Orthopaedics"};
+        String[] timings = {"1PM-2PM", "2PM-3PM", "1PM-2PM", "2PM-3PM", "1PM-2PM", "2PM-3PM", "1PM-2PM"};
+        for (int i = 0; i < 6; i++) {
             Doctor doctor = new Doctor();
-            doctor.setDoctorId(Integer.parseInt(data[0]));
-            doctor.setDoctorName(data[1]);
-            doctor.setContactNumber(data[2]);
-            doctor.setTreatingAilment(data[3]);
-            doctor.setSlotTiming(data[4]);
-
+            doctor.setDoctorName("Doctor-" + String.valueOf(i + 1));
+            doctor.setContactNumber("9784123541");
+            doctor.setTreatingAilment(str[i]);
+            doctor.setSlotTiming(timings[i]);
             doctorsRepository.save(doctor);
-
         }
-
-        logger.info("[schedule-service] [db-init] doctors data initialization complete");
     }
+
+
 }
